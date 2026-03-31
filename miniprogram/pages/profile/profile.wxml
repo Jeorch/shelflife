@@ -1,0 +1,32 @@
+<!-- pages/profile/profile.wxml -->
+<view class="container">
+  <!-- 用户信息 -->
+  <view class="user-card">
+    <block wx:if="{{hasUserInfo}}">
+      <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"/>
+      <view class="user-info">
+        <text class="nickname">{{userInfo.nickName}}</text>
+        <text class="sub-text">欢迎使用保质期管家</text>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="avatar-placeholder">👤</view>
+      <view class="user-info">
+        <text class="nickname">未登录</text>
+        <button class="login-btn" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">微信一键登录</button>
+      </view>
+    </block>
+  </view>
+
+  <!-- 关于 -->
+  <view class="section">
+    <view class="menu-item">
+      <text>版本</text>
+      <text class="menu-value">v1.0.0</text>
+    </view>
+    <view class="menu-item">
+      <text>反馈问题</text>
+      <text class="arrow">›</text>
+    </view>
+  </view>
+</view>

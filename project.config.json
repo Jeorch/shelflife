@@ -1,0 +1,22 @@
+{
+  "description": "ShelfLife 保质期小程序",
+  "setting": {
+    "useCompilerPlugins": ["sass"],
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "compileType": "miniprogram",
+  "libVersion": "3.4.3",
+  "appid": "请填入你的 appid",
+  "projectname": "shelflife",
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
+  "srcMiniprogramRoot": "miniprogram/",
+  "cloudbaseRoot": "cloudfunctions/"
+}

@@ -1,0 +1,6 @@
+<!-- components/status-tag/status-tag.wxml -->
+<view class="tag tag-{{status}}">
+  <text wx:if="{{status === 'expired'}}">已过期</text>
+  <text wx:elif="{{status === 'near'}}">{{daysLeft}}天后到期</text>
+  <text wx:else>还有{{daysLeft}}天</text>
+</view>

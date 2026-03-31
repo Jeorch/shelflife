@@ -1,0 +1,11 @@
+{
+  "name": "shelflife",
+  "version": "1.0.0",
+  "description": "ShelfLife 保质期小程序单元测试",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}

@@ -1,0 +1,91 @@
+<!-- pages/add/add.wxml -->
+<view class="container">
+  <!-- 图片上传区 -->
+  <view class="section">
+    <view class="section-title">物品图片（选填）</view>
+    <view class="image-upload">
+      <view wx:if="{{imageLocalPath}}" class="image-preview">
+        <image src="{{imageLocalPath}}" mode="aspectFill" class="preview-img"/>
+        <view class="image-remove" bindtap="onRemoveImage">×</view>
+      </view>
+      <view wx:else class="image-placeholder" bindtap="onChooseImage">
+        <text class="upload-icon">📷</text>
+        <text class="upload-text">拍照或选择图片</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="section">
+    <view class="section-title">基本信息</view>
+    <view class="form-group">
+      <text class="label">物品名称 <text class="required">*</text></text>
+      <input
+        class="input"
+        placeholder="例如：牛奶、维生素C"
+        value="{{form.name}}"
+        bindinput="onNameInput"
+        maxlength="30"
+      />
+    </view>
+    <view class="form-group">
+      <text class="label">分类</text>
+      <picker mode="selector" range="{{categories}}" bindchange="onCategoryChange">
+        <view class="picker-value">
+          <text>{{form.category}}</text>
+          <text class="arrow">›</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 日期信息 -->
+  <view class="section">
+    <view class="section-title">日期信息</view>
+    <view class="form-group">
+      <text class="label">生产日期（选填）</text>
+      <picker mode="date" value="{{form.productionDate}}" bindchange="onProductionDateChange">
+        <view class="picker-value">
+          <text>{{form.productionDate || '请选择'}}</text>
+          <text class="arrow">›</text>
+        </view>
+      </picker>
+    </view>
+    <view class="form-group">
+      <text class="label">到期日期 <text class="required">*</text></text>
+      <picker mode="date" value="{{form.expiryDate}}" bindchange="onExpiryDateChange">
+        <view class="picker-value {{!form.expiryDate ? 'placeholder' : ''}}">
+          <text>{{form.expiryDate || '请选择'}}</text>
+          <text class="arrow">›</text>
+        </view>
+      </picker>
+    </view>
+    <view class="form-group">
+      <text class="label">保质期天数（选填）</text>
+      <input
+        class="input"
+        type="number"
+        placeholder="例如：365"
+        value="{{form.shelfLifeDays}}"
+        bindinput="onShelfLifeInput"
+      />
+    </view>
+  </view>
+
+  <!-- 备注 -->
+  <view class="section">
+    <view class="section-title">备注（选填）</view>
+    <textarea
+      class="textarea"
+      placeholder="补充信息，如购买地点、开封日期等"
+      value="{{form.note}}"
+      bindinput="onNoteInput"
+      maxlength="200"
+    />
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-area">
+    <button class="btn-primary" bindtap="onSubmit" disabled="{{submitting}}">保存</button>
+  </view>
+</view>

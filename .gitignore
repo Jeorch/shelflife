@@ -1,0 +1,22 @@
+# Claude Code 内部目录
+.claude/
+
+# 微信小程序私有配置（含 appid 等敏感信息）
+project.private.config.json
+
+# Node 依赖
+node_modules/
+
+# 云函数依赖（各云函数目录下的 node_modules）
+cloudfunctions/*/node_modules/
+
+# macOS
+.DS_Store
+
+# 编辑器
+.idea/
+.vscode/
+*.swp
+
+# 测试覆盖率
+coverage/

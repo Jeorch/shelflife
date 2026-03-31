@@ -1,0 +1,98 @@
+<!-- pages/detail/detail.wxml -->
+<view class="container" wx:if="{{item}}">
+
+  <!-- 查看模式 -->
+  <block wx:if="{{!editing}}">
+    <!-- 图片 -->
+    <view class="image-section" wx:if="{{item.image}}">
+      <image src="{{item.image}}" mode="aspectFill" class="item-image"/>
+    </view>
+
+    <!-- 状态卡片 -->
+    <view class="status-card bg-{{item.status}}">
+      <view class="status-name">{{item.name}}</view>
+      <status-tag status="{{item.status}}" daysLeft="{{item.daysLeft}}"/>
+    </view>
+
+    <!-- 详情信息 -->
+    <view class="info-section">
+      <view class="info-row">
+        <text class="info-label">分类</text>
+        <text class="info-value">{{item.category}}</text>
+      </view>
+      <view class="info-row" wx:if="{{item.productionDate}}">
+        <text class="info-label">生产日期</text>
+        <text class="info-value">{{item.productionDate}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">到期日期</text>
+        <text class="info-value status-{{item.status}}">{{item.expiryDate}}</text>
+      </view>
+      <view class="info-row" wx:if="{{item.shelfLifeDays}}">
+        <text class="info-label">保质期</text>
+        <text class="info-value">{{item.shelfLifeDays}} 天</text>
+      </view>
+      <view class="info-row" wx:if="{{item.note}}">
+        <text class="info-label">备注</text>
+        <text class="info-value">{{item.note}}</text>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-area">
+      <button class="btn-primary" bindtap="onEditTap">编辑</button>
+      <button class="btn-danger" bindtap="onDelete">删除</button>
+    </view>
+  </block>
+
+  <!-- 编辑模式 -->
+  <block wx:else>
+    <view class="section">
+      <view class="section-title">物品图片</view>
+      <view class="image-upload">
+        <view wx:if="{{imageLocalPath || form.image}}" class="image-preview">
+          <image src="{{imageLocalPath || form.image}}" mode="aspectFill" class="preview-img"/>
+          <view class="image-remove" bindtap="onRemoveImage">×</view>
+        </view>
+        <view wx:else class="image-placeholder" bindtap="onChooseImage">
+          <text class="upload-icon">📷</text>
+          <text class="upload-text">拍照或选择图片</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="form-group">
+        <text class="label">物品名称 <text class="required">*</text></text>
+        <input class="input" value="{{form.name}}" bindinput="onNameInput" maxlength="30"/>
+      </view>
+      <view class="form-group">
+        <text class="label">分类</text>
+        <picker mode="selector" range="{{categories}}" bindchange="onCategoryChange">
+          <view class="picker-value"><text>{{form.category}}</text><text class="arrow">›</text></view>
+        </picker>
+      </view>
+      <view class="form-group">
+        <text class="label">生产日期（选填）</text>
+        <picker mode="date" value="{{form.productionDate}}" bindchange="onProductionDateChange">
+          <view class="picker-value"><text>{{form.productionDate || '请选择'}}</text><text class="arrow">›</text></view>
+        </picker>
+      </view>
+      <view class="form-group">
+        <text class="label">到期日期 <text class="required">*</text></text>
+        <picker mode="date" value="{{form.expiryDate}}" bindchange="onExpiryDateChange">
+          <view class="picker-value"><text>{{form.expiryDate}}</text><text class="arrow">›</text></view>
+        </picker>
+      </view>
+      <view class="form-group">
+        <text class="label">备注</text>
+        <textarea class="textarea" value="{{form.note}}" bindinput="onNoteInput" maxlength="200"/>
+      </view>
+    </view>
+
+    <view class="action-area">
+      <button class="btn-primary" bindtap="onSave" disabled="{{submitting}}">保存</button>
+      <button class="btn-cancel" bindtap="onCancelEdit">取消</button>
+    </view>
+  </block>
+</view>

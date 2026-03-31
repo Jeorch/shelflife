@@ -1,0 +1,14 @@
+/* components/status-tag/status-tag.wxss */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.tag-normal  { background: #E8F5EE; color: #4CAF82; }
+.tag-near    { background: #FFF3E0; color: #FF9800; }
+.tag-expired { background: #FFEBEE; color: #F44336; }

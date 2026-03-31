@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "item-card": "/components/item-card/item-card",
+    "status-tag": "/components/status-tag/status-tag"
+  },
+  "navigationBarTitleText": "保质期管家"
+}

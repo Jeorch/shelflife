@@ -1,0 +1,51 @@
+/* app.wxss — 全局样式 */
+page {
+  background-color: #F5F5F5;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+  font-size: 28rpx;
+  color: #333333;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* 状态色 */
+.status-normal  { color: #4CAF82; }
+.status-near    { color: #FF9800; }
+.status-expired { color: #F44336; }
+
+.bg-normal  { background-color: #E8F5EE; }
+.bg-near    { background-color: #FFF3E0; }
+.bg-expired { background-color: #FFEBEE; }
+
+/* 通用按钮 */
+.btn-primary {
+  background-color: #4CAF82;
+  color: #FFFFFF;
+  border-radius: 12rpx;
+  border: none;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+}
+
+.btn-danger {
+  background-color: #F44336;
+  color: #FFFFFF;
+  border-radius: 12rpx;
+  border: none;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 32rpx;
+}
+
+/* 空状态 */
+.empty-tip {
+  text-align: center;
+  color: #BBBBBB;
+  margin-top: 120rpx;
+  font-size: 28rpx;
+}

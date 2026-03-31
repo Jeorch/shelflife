@@ -1,0 +1,30 @@
+<!-- components/item-card/item-card.wxml -->
+<view class="card bg-{{item.status}}">
+  <!-- 图片 -->
+  <view class="card-image-wrap">
+    <image
+      wx:if="{{item.image}}"
+      src="{{item.image}}"
+      mode="aspectFill"
+      class="card-image"
+    />
+    <view wx:else class="card-image-placeholder">
+      <text class="placeholder-icon">📦</text>
+    </view>
+  </view>
+
+  <!-- 内容 -->
+  <view class="card-content">
+    <view class="card-header">
+      <text class="card-name">{{item.name}}</text>
+      <status-tag status="{{item.status}}" daysLeft="{{item.daysLeft}}"/>
+    </view>
+    <view class="card-meta">
+      <text class="card-category">{{item.category}}</text>
+      <text class="card-date">到期：{{item.expiryDate}}</text>
+    </view>
+  </view>
+
+  <!-- 箭头 -->
+  <text class="card-arrow">›</text>
+</view>
