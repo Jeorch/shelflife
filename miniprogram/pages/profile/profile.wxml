@@ -13,7 +13,7 @@
       <view class="avatar-placeholder">👤</view>
       <view class="user-info">
         <text class="nickname">未登录</text>
-        <button class="login-btn" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">微信一键登录</button>
+        <button class="login-btn" bindtap="onLogin">微信一键登录</button>
       </view>
     </block>
   </view>

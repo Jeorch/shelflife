@@ -6,7 +6,7 @@ App({
       return
     }
     wx.cloud.init({
-      env: 'shelflife-env', // TODO: 替换为你的云环境 ID
+      env: 'cloud1-5g5etfrv38da117f',
       traceUser: true,
     })
     this.globalData = {}
@@ -19,7 +19,6 @@ App({
       success: res => {
         console.log('[login] success', res.result)
         this.globalData.openid = res.result.openid
-        this.globalData.userInfo = res.result.userInfo
       },
       fail: err => {
         console.error('[login] fail', err)
