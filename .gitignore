@@ -3,6 +3,7 @@
 
 # 微信小程序私有配置（含 appid 等敏感信息）
 project.private.config.json
+project.config.json
 
 # Node 依赖
 node_modules/
