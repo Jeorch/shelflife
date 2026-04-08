@@ -5,29 +5,30 @@ const db = cloud.database()
 
 exports.main = async (event, context) => {
   const { OPENID, APPID } = cloud.getWXContext()
+  const { nickName, avatarUrl } = event
   try {
     const now = db.serverDate()
-    // 查询用户是否已存在
     const { data } = await db.collection('users')
       .where({ _openid: OPENID })
       .limit(1)
       .get()
 
     if (data.length === 0) {
-      // 新用户，写入
       await db.collection('users').add({
         data: {
           _openid: OPENID,
           appid: APPID,
+          nickName: nickName || '微信用户',
+          avatarUrl: avatarUrl || '',
           createTime: now,
           updateTime: now,
         },
       })
     } else {
-      // 老用户，更新 updateTime
-      await db.collection('users').doc(data[0]._id).update({
-        data: { updateTime: now },
-      })
+      const updateData = { updateTime: now }
+      if (nickName) updateData.nickName = nickName
+      if (avatarUrl) updateData.avatarUrl = avatarUrl
+      await db.collection('users').doc(data[0]._id).update({ data: updateData })
     }
 
     return { code: 0, openid: OPENID }

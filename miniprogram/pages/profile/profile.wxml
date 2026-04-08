@@ -1,12 +1,30 @@
 <!-- pages/profile/profile.wxml -->
 <view class="container">
-  <!-- 用户信息 -->
+  <!-- 用户信息卡片 -->
   <view class="user-card">
     <block wx:if="{{hasUserInfo}}">
-      <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"/>
+      <!-- 新版头像选择按钮 -->
+      <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        <image wx:if="{{userInfo.avatarUrl}}" class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"/>
+        <view wx:else class="avatar-placeholder">👤</view>
+      </button>
       <view class="user-info">
-        <text class="nickname">{{userInfo.nickName}}</text>
-        <text class="sub-text">欢迎使用保质期管家</text>
+        <block wx:if="{{editing}}">
+          <!-- 新版昵称输入框，type="nickname" 可触发微信昵称填充 -->
+          <input class="nickname-input" type="nickname" value="{{editNickName}}"
+            bindinput="onNickNameInput" bindblur="onNickNameBlur" placeholder="输入昵称"/>
+          <view class="edit-actions">
+            <button class="btn-save" bindtap="onSaveNickName">保存</button>
+            <button class="btn-cancel" bindtap="onCancelEdit">取消</button>
+          </view>
+        </block>
+        <block wx:else>
+          <view class="nickname-row">
+            <text class="nickname">{{userInfo.nickName}}</text>
+            <text class="edit-icon" bindtap="onStartEdit">✏️</text>
+          </view>
+          <text class="sub-text">欢迎使用保质期管家</text>
+        </block>
       </view>
     </block>
     <block wx:else>
@@ -18,15 +36,46 @@
     </block>
   </view>
 
+  <!-- 数据统计 -->
+  <view wx:if="{{hasUserInfo}}" class="stats-section">
+    <view class="stats-title">我的数据</view>
+    <view class="stats-grid">
+      <view class="stat-item">
+        <text class="stat-num">{{stats.total}}</text>
+        <text class="stat-label">全部</text>
+      </view>
+      <view class="stat-item stat-normal">
+        <text class="stat-num">{{stats.normal}}</text>
+        <text class="stat-label">正常</text>
+      </view>
+      <view class="stat-item stat-near">
+        <text class="stat-num">{{stats.near}}</text>
+        <text class="stat-label">临期</text>
+      </view>
+      <view class="stat-item stat-expired">
+        <text class="stat-num">{{stats.expired}}</text>
+        <text class="stat-label">已过期</text>
+      </view>
+    </view>
+
+    <!-- 分类分布 -->
+    <view wx:if="{{categoryStats.length > 0}}" class="category-stats">
+      <view class="stats-subtitle">分类分布</view>
+      <view class="category-row" wx:for="{{categoryStats}}" wx:key="name">
+        <text class="cat-name">{{item.name}}</text>
+        <view class="cat-bar-wrap">
+          <view class="cat-bar" style="width: {{stats.total > 0 ? item.count / stats.total * 100 : 0}}%"></view>
+        </view>
+        <text class="cat-count">{{item.count}}</text>
+      </view>
+    </view>
+  </view>
+
   <!-- 关于 -->
   <view class="section">
     <view class="menu-item">
       <text>版本</text>
-      <text class="menu-value">v1.0.0</text>
-    </view>
-    <view class="menu-item">
-      <text>反馈问题</text>
-      <text class="arrow">›</text>
+      <text class="menu-value">v2.0.0</text>
     </view>
   </view>
 </view>

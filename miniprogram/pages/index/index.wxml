@@ -6,7 +6,7 @@
     <text>有 {{nearCount}} 件物品临期或已过期，请及时处理</text>
   </view>
 
-  <!-- 筛选 Tab -->
+  <!-- 状态筛选 Tab -->
   <view class="filter-tabs">
     <view
       class="filter-tab {{activeFilter === 'all' ? 'active' : ''}}"
@@ -24,6 +24,19 @@
       bindtap="onFilterTap"
     >已过期</view>
   </view>
+
+  <!-- 分类筛选 -->
+  <scroll-view class="category-scroll" scroll-x>
+    <view class="category-tabs">
+      <view
+        wx:for="{{categoryList}}"
+        wx:key="*this"
+        class="category-tab {{activeCategory === item ? 'active' : ''}}"
+        data-category="{{item}}"
+        bindtap="onCategoryTap"
+      >{{item}}</view>
+    </view>
+  </scroll-view>
 
   <!-- 加载中 -->
   <view wx:if="{{loading}}" class="empty-tip">加载中...</view>

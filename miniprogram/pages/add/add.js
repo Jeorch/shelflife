@@ -82,6 +82,7 @@ Page({
       await cloud.call('itemAdd', { ...form, image: imageFileId })
       wx.hideLoading()
       wx.showToast({ title: '添加成功', icon: 'success' })
+      this._requestSubscribe()
       setTimeout(() => wx.navigateBack(), 1200)
     } catch (e) {
       wx.hideLoading()
@@ -90,5 +91,17 @@ Page({
     } finally {
       this.setData({ submitting: false })
     }
+  },
+
+  _requestSubscribe() {
+    const tmplId = wx.getAccountInfoSync
+      ? (wx.getAccountInfoSync().miniProgram.envVersion !== 'release'
+        ? 'YOUR_TEMPLATE_ID'
+        : 'YOUR_TEMPLATE_ID')
+      : 'YOUR_TEMPLATE_ID'
+    wx.requestSubscribeMessage({
+      tmplIds: [tmplId],
+      fail: () => {},
+    })
   },
 })

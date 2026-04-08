@@ -9,11 +9,24 @@
   gap: 32rpx;
 }
 
+.avatar-btn {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  padding: 0;
+  background: transparent;
+  border: none;
+  line-height: 1;
+}
+
+.avatar-btn::after { border: none; }
+
 .avatar {
   width: 120rpx;
   height: 120rpx;
   border-radius: 60rpx;
   border: 4rpx solid rgba(255,255,255,0.6);
+  display: block;
 }
 
 .avatar-placeholder {
@@ -29,9 +42,36 @@
   line-height: 120rpx;
 }
 
-.user-info { display: flex; flex-direction: column; gap: 12rpx; }
+.user-info { display: flex; flex-direction: column; gap: 12rpx; flex: 1; }
+
+.nickname-row { display: flex; align-items: center; gap: 12rpx; }
 .nickname { font-size: 36rpx; font-weight: 600; color: #FFFFFF; }
+.edit-icon { font-size: 28rpx; }
 .sub-text { font-size: 24rpx; color: rgba(255,255,255,0.8); }
+
+.nickname-input {
+  background: rgba(255,255,255,0.2);
+  border-radius: 8rpx;
+  padding: 8rpx 16rpx;
+  color: #FFFFFF;
+  font-size: 32rpx;
+  width: 320rpx;
+}
+
+.edit-actions { display: flex; gap: 16rpx; margin-top: 8rpx; }
+
+.btn-save, .btn-cancel {
+  font-size: 24rpx;
+  padding: 8rpx 24rpx;
+  border-radius: 8rpx;
+  height: auto;
+  line-height: 1.5;
+  border: none;
+}
+
+.btn-save { background: #FFFFFF; color: #4CAF82; }
+.btn-cancel { background: rgba(255,255,255,0.2); color: #FFFFFF; }
+.btn-save::after, .btn-cancel::after { border: none; }
 
 .login-btn {
   background: rgba(255,255,255,0.25);
@@ -44,6 +84,93 @@
   line-height: 1.5;
 }
 
+/* 数据统计 */
+.stats-section {
+  background: #FFFFFF;
+  margin-top: 24rpx;
+  padding: 32rpx;
+}
+
+.stats-title {
+  font-size: 28rpx;
+  color: #999;
+  margin-bottom: 24rpx;
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: space-around;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.stat-num {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #333;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.stat-normal .stat-num { color: #4CAF82; }
+.stat-near .stat-num { color: #FF9800; }
+.stat-expired .stat-num { color: #F44336; }
+
+/* 分类分布 */
+.category-stats { margin-top: 32rpx; }
+
+.stats-subtitle {
+  font-size: 26rpx;
+  color: #999;
+  margin-bottom: 20rpx;
+}
+
+.category-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.cat-name {
+  width: 100rpx;
+  font-size: 26rpx;
+  color: #555;
+  flex-shrink: 0;
+}
+
+.cat-bar-wrap {
+  flex: 1;
+  height: 16rpx;
+  background: #F0F0F0;
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+
+.cat-bar {
+  height: 100%;
+  background: #4CAF82;
+  border-radius: 8rpx;
+  min-width: 4rpx;
+}
+
+.cat-count {
+  width: 48rpx;
+  text-align: right;
+  font-size: 26rpx;
+  color: #999;
+  flex-shrink: 0;
+}
+
+/* 菜单 */
 .section {
   background: #FFFFFF;
   margin-top: 24rpx;
@@ -62,4 +189,3 @@
 
 .menu-item:last-child { border-bottom: none; }
 .menu-value { color: #999; font-size: 28rpx; }
-.arrow { color: #CCC; font-size: 36rpx; }

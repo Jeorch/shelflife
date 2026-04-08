@@ -2,11 +2,15 @@
 const { getItemStatus, getDaysLeft } = require('../../utils/date')
 const cloud = require('../../utils/cloud')
 
+const CATEGORIES = ['全部', '食品', '药品', '护肤品', '日用品', '其他']
+
 Page({
   data: {
     items: [],
     filteredItems: [],
-    activeFilter: 'all', // all | near | expired
+    activeFilter: 'all',   // all | near | expired
+    activeCategory: '全部',
+    categoryList: CATEGORIES,
     nearCount: 0,
     loading: true,
   },
@@ -31,7 +35,7 @@ Page({
       items.sort((a, b) => new Date(a.expiryDate) - new Date(b.expiryDate))
       const nearCount = items.filter(i => i.status === 'near' || i.status === 'expired').length
       this.setData({ items, nearCount, loading: false })
-      this.applyFilter(this.data.activeFilter)
+      this._applyFilters()
     } catch (e) {
       console.error('[loadItems]', e)
       this.setData({ loading: false })
@@ -40,22 +44,30 @@ Page({
   },
 
   onFilterTap(e) {
-    const filter = e.currentTarget.dataset.filter
-    this.setData({ activeFilter: filter })
-    this.applyFilter(filter)
+    this.setData({ activeFilter: e.currentTarget.dataset.filter })
+    this._applyFilters()
   },
 
-  applyFilter(filter) {
-    const { items } = this.data
-    let filteredItems
-    if (filter === 'near') {
-      filteredItems = items.filter(i => i.status === 'near')
-    } else if (filter === 'expired') {
-      filteredItems = items.filter(i => i.status === 'expired')
-    } else {
-      filteredItems = items
+  onCategoryTap(e) {
+    this.setData({ activeCategory: e.currentTarget.dataset.category })
+    this._applyFilters()
+  },
+
+  _applyFilters() {
+    const { items, activeFilter, activeCategory } = this.data
+    let result = items
+
+    if (activeFilter === 'near') {
+      result = result.filter(i => i.status === 'near')
+    } else if (activeFilter === 'expired') {
+      result = result.filter(i => i.status === 'expired')
     }
-    this.setData({ filteredItems })
+
+    if (activeCategory !== '全部') {
+      result = result.filter(i => i.category === activeCategory)
+    }
+
+    this.setData({ filteredItems: result })
   },
 
   onAddTap() {
