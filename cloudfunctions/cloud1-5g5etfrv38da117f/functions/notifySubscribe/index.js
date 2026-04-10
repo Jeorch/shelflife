@@ -37,25 +37,31 @@ exports.main = async (event, context) => {
       const nearItems = items.filter(i => i.expiryDate >= todayStr)
       const expiredItems = items.filter(i => i.expiryDate < todayStr)
 
-      // 构造提醒内容
-      let thing1 = ''
-      if (nearItems.length > 0) {
-        thing1 = `${nearItems[0].name}等${nearItems.length}件物品即将过期`
-      } else if (expiredItems.length > 0) {
-        thing1 = `${expiredItems[0].name}等${expiredItems.length}件物品已过期`
-      }
+      // 提取最紧急的一件物品作为代表
+      const targetItem = nearItems.length > 0 ? nearItems[0] : expiredItems[0]
+      const totalCount = items.length
+      
+      // 计算剩余天数（或过期天数）
+      const expiryTime = new Date(targetItem.expiryDate).getTime()
+      const daysDiff = Math.round((expiryTime - today.getTime()) / (1000 * 60 * 60 * 24))
+      const daysText = daysDiff >= 0 ? `剩余${daysDiff}天` : `已过期${Math.abs(daysDiff)}天`
 
-      if (thing1.length > 20) thing1 = thing1.slice(0, 20)
+      // 截断过长字符串以满足微信模板要求
+      const safeCategory = targetItem.category.slice(0, 20)
+      const safeName = targetItem.name.slice(0, 20)
+      const safeNote = `共${totalCount}件物品需处理`.slice(0, 20)
 
       try {
         await cloud.openapi.subscribeMessage.send({
           touser: openid,
-          templateId: process.env.SUBSCRIBE_TEMPLATE_ID || '',
+          templateId: process.env.SUBSCRIBE_TEMPLATE_ID || 'vpVFbO8Gu5Nhxbc0ok1CJsrNRTgfu3_Qy0_jp2qwedM', // 优先使用环境变量，支持热更新
           page: 'pages/index/index',
           data: {
-            thing1: { value: thing1 },
-            date2: { value: todayStr },
-            number3: { value: String(items.length) },
+            thing1: { value: safeCategory },    // 物品分类
+            thing2: { value: safeName },        // 物品名称
+            time3: { value: targetItem.expiryDate }, // 有效期至
+            thing4: { value: daysText },        // 剩余天数
+            thing5: { value: safeNote },        // 备注
           },
         })
         successCount++

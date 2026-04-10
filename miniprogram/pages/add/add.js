@@ -69,39 +69,43 @@ Page({
       wx.showToast({ title: '请选择到期日期', icon: 'none' })
       return
     }
-    this.setData({ submitting: true })
-    wx.showLoading({ title: '保存中...' })
-    try {
-      let imageFileId = ''
-      if (imageLocalPath) {
-        const ext = imageLocalPath.split('.').pop()
-        const cloudPath = `items/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`
-        const uploadRes = await wx.cloud.uploadFile({ cloudPath, filePath: imageLocalPath })
-        imageFileId = uploadRes.fileID
-      }
-      await cloud.call('itemAdd', { ...form, image: imageFileId })
-      wx.hideLoading()
-      wx.showToast({ title: '添加成功', icon: 'success' })
-      this._requestSubscribe()
-      setTimeout(() => wx.navigateBack(), 1200)
-    } catch (e) {
-      wx.hideLoading()
-      console.error('[onSubmit]', e)
-      wx.showToast({ title: '保存失败，请重试', icon: 'error' })
-    } finally {
-      this.setData({ submitting: false })
-    }
-  },
 
-  _requestSubscribe() {
-    const tmplId = wx.getAccountInfoSync
-      ? (wx.getAccountInfoSync().miniProgram.envVersion !== 'release'
-        ? 'YOUR_TEMPLATE_ID'
-        : 'YOUR_TEMPLATE_ID')
-      : 'YOUR_TEMPLATE_ID'
+    const tmplId = getApp().globalData.tmplIds.expireNotify;
+
+    // 必须在任何异步操作（如 await、showLoading）前调用，确保处于用户手势上下文中
     wx.requestSubscribeMessage({
       tmplIds: [tmplId],
-      fail: () => {},
+      success: () => {
+        console.log('订阅成功')
+      },
+      fail: (err) => {
+        console.warn('订阅失败', err)
+      },
+      complete: async () => {
+        // 无论同意还是拒绝，都继续执行保存逻辑
+        this.setData({ submitting: true })
+        wx.showLoading({ title: '保存中...' })
+        try {
+          let imageFileId = ''
+          if (imageLocalPath) {
+            const ext = imageLocalPath.split('.').pop()
+            const cloudPath = `items/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`
+            const uploadRes = await wx.cloud.uploadFile({ cloudPath, filePath: imageLocalPath })
+            imageFileId = uploadRes.fileID
+          }
+          await cloud.call('itemAdd', { ...form, image: imageFileId })
+          wx.hideLoading()
+          
+          wx.showToast({ title: '添加成功', icon: 'success' })
+          setTimeout(() => wx.navigateBack(), 1200)
+        } catch (e) {
+          wx.hideLoading()
+          console.error('[onSubmit]', e)
+          wx.showToast({ title: '保存失败，请重试', icon: 'error' })
+        } finally {
+          this.setData({ submitting: false })
+        }
+      }
     })
-  },
+  }
 })

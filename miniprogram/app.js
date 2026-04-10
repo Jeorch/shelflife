@@ -9,7 +9,6 @@ App({
       env: 'cloud1-5g5etfrv38da117f',
       traceUser: true,
     })
-    this.globalData = {}
     this._login()
   },
 
@@ -28,6 +27,10 @@ App({
 
   globalData: {
     openid: null,
-    userInfo: null
+    userInfo: null,
+    // 订阅消息模板 ID 配置
+    tmplIds: {
+      expireNotify: 'vpVFbO8Gu5Nhxbc0ok1CJsrNRTgfu3_Qy0_jp2qwedM'
+    }
   }
 })
